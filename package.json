@@ -1,0 +1,17 @@
+{
+  "name": "HomeTasks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "unit": "jasmine ./**/*.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jasmine": "^3.4.0",
+    "jest": "^24.7.1"
+  }
+}
