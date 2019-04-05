@@ -45,5 +45,7 @@ describe("Test", () => {
     expect(HomeTask3.isPointInSquare(1, 1)).toBeTruthy();
     expect(HomeTask3.isPointInSquare(10, 10)).not.toBeTruthy();
     expect(HomeTask3.isPointInSquare(0, 0)).toBeTruthy();
+    expect(HomeTask3.isPointInSquare(3, 3)).not.toBeTruthy();
+    expect(HomeTask3.isPointInSquare(-1, 0)).toBeTruthy();
   });
 });
