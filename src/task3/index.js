@@ -1,12 +1,124 @@
-module.exports.isTimeValide = function(a, b) {
-  return false;
+/**
+ * Validate inputted time in 24 hours format
+ * @param {number} hours houres that need validate
+ * @param {number} minutes minutes that need validate
+ * @returns {boolean} true, if inputted correct houres and minutes
+ */
+function isTimeValide(hours, minutes) {
+  return (0 <= hours && hours <= 23) && (0 <= minutes && minutes <= 59);
+};
+/**
+ * Changed time by adding some minutes.
+ * @param {number} hours actual houres
+ * @param {number} minutes actual minutes
+ * @param {number} additionTime number of minutes that need add
+ * @returns {Stirng} string representation of new time
+ */
+function addMinutes(hours, minutes, additionTime) {
+  const newMinutes = (additionTime + minutes) % 60;
+  const newHours = (((additionTime + minutes) / 60) + hours) % 24;
+  return addPadding(parseInt(newHours)) + ":" + addPadding(parseInt(newMinutes));
 };
 
-module.exports.addMinutes = function(hours, minutes, additionTime) {
-  return "";
+/**
+ * Adding zerro padding if number less than 10
+ * @param {number} value expected number
+ * @return {String} String representation of expected number
+ */
+function addPadding(value) {
+  return value / 10 >= 1 ? value : '0' + value
+}
+
+/**
+ * Indicate sesone of inputted monthe;
+ * @param {number} month sequence number of month
+ * @return {String} Name of sesone
+ */
+function getSesone(month) {
+  var seson = '';
+  if (month > 2 && month <= 5) {
+    seson = 'Весна';
+  } else if (month > 5 && month <= 8) {
+    seson = 'Лето';
+  } else if (month > 8 && month <= 11) {
+    seson = 'Осен';
+  } else if (month > 0 && month <= 12) {
+    seson = 'Зима';
+  }
+  return seson;
 };
 
-module.exports.isPointInCircle = function(x, y) {
+/**
+ * Indicate declansion of word "Day"
+ * @param {number} declansion number of declansion
+ * @return {String} expected declansion word "Day"
+ */
+function getDayDeclension(declansion) {
+  var dayDeclansion = "";
+  switch (declansion) {
+    case 1:
+    case 4:
+      dayDeclansion = "День";
+      break;
+    case 2:
+      dayDeclansion = "Дня";
+      break;
+    case 3:
+      dayDeclansion = "Дню";
+      break;
+    case 5:
+      dayDeclansion = "Днем";
+      break;
+    case 6:
+      dayDeclansion = "Дне";
+      break;
+    default:
+      dayDeclansion = "Incorrect Declansion"
+      break;
+  }
+  return dayDeclansion;
+};
+
+/**
+ *  Calculate sum of number from 1 to inputted value.
+ * @param {number} value upper border for calculate range
+ * @return {number} summ of all number in range
+ */
+function sum(value) {
+  var result = 0;
+  if (value > 0) {
+    result = value + sum(--value);
+  }
+  return result;
+};
+
+/**
+ * Calculate array of result multiplication inputted number on each number from 1 to 10. 
+ * Implemented by recursion. Also print reslts of pultiplications
+ * @param {number} value number that need multiplicate
+ * @return {Array} of multiplication results
+ */
+function multiplication(value) {
+  var multiplicationArray = [];
+  var multiplyOn = arguments[1] === undefined ? 10 : arguments[1]
+  if (multiplyOn > 0) {
+    multiplicationArray.push((value * multiplyOn))
+    multiplicationArray = multiplication(value, --multiplyOn).concat(multiplicationArray)
+
+  }
+
+  console.log(value + " * " + ++multiplyOn + " = " + (value * multiplyOn));
+
+  return multiplicationArray;
+};
+
+/**
+ * Analyze that point place inside or on boarder of cycle.
+ * @param {number} x x coordinate of point
+ * @param {number} y y coordinate of point
+ * @returns {boolean} true if point present inside or on boarder.
+ */
+function isPointInCircle(x, y) {
   const cycleCenterX = 3;
   const cycleCenterY = 5;
   const cycleRadius = 4;
@@ -16,22 +128,13 @@ module.exports.isPointInCircle = function(x, y) {
   return length <= cycleRadius;
 };
 
-module.exports.getSeason = function(month) {
-  return 0;
-};
-module.exports.getDayDeclension = function(declansion) {
-  return "";
-};
-
-module.exports.getSumm = function(value) {
-  return 3;
-};
-
-module.exports.getMultiplicationTable = function(value) {
-  return "";
-};
-
-module.exports.isPointInSquare = function(x, y) {
+/**
+ * Analyze that point place inside or on boarder of square.
+ * @param {number} x x coordinate of point
+ * @param {number} y y coordinate of point
+ * @returns {boolean} true if point present inside or on boarder.
+ */
+function isPointInSquare(x, y) {
   const pointf = { x: x, y: y };
   const line1 = {
     point1: {
@@ -77,25 +180,25 @@ module.exports.isPointInSquare = function(x, y) {
     }
   };
 
-  const cooficient1 = findLinearFunction(
+  const cof1 = findLinearFunction(
     line1.point1.x,
     line1.point1.y,
     line1.point2.x,
     line1.point2.y
   );
-  const cooficient2 = findLinearFunction(
+  const cof2 = findLinearFunction(
     line2.point1.x,
     line2.point1.y,
     line2.point2.x,
     line2.point2.y
   );
-  const cooficient3 = findLinearFunction(
+  const cof3 = findLinearFunction(
     line3.point1.x,
     line3.point1.y,
     line3.point2.x,
     line3.point2.y
   );
-  const cooficient4 = findLinearFunction(
+  const cof4 = findLinearFunction(
     line4.point1.x,
     line4.point1.y,
     line4.point2.x,
@@ -103,111 +206,79 @@ module.exports.isPointInSquare = function(x, y) {
   );
 
   const crossPoint1 = findCrossPoint(
-    cooficient1.k,
-    cooficient1.b,
-    cooficient2.k,
-    cooficient2.b
+    cof1.k,
+    cof1.b,
+    cof2.k,
+    cof2.b
   );
   const crossPoint2 = findCrossPoint(
-    cooficient2.k,
-    cooficient2.b,
-    cooficient3.k,
-    cooficient3.b
+    cof2.k,
+    cof2.b,
+    cof3.k,
+    cof3.b
   );
   const crossPoint3 = findCrossPoint(
-    cooficient3.k,
-    cooficient3.b,
-    cooficient4.k,
-    cooficient4.b
+    cof3.k,
+    cof3.b,
+    cof4.k,
+    cof4.b
   );
   const crossPoint4 = findCrossPoint(
-    cooficient4.k,
-    cooficient4.b,
-    cooficient1.k,
-    cooficient1.b
+    cof4.k,
+    cof4.b,
+    cof1.k,
+    cof1.b
   );
 
-  const ispointInFirstTriangle = isPointInTriangle(
-    crossPoint1,
-    crossPoint2,
-    crossPoint3,
-    pointf
-  );
-  const isPointInSecondTriangle = isPointInTriangle(
-    crossPoint1,
-    crossPoint4,
-    crossPoint3,
-    pointf
-  );
-
-  return ispointInFirstTriangle || isPointInSecondTriangle;
+  return isSameSide(cof1, crossPoint2, pointf)
+    && isSameSide(cof2, crossPoint3, pointf)
+    && isSameSide(cof3, crossPoint4, pointf)
+    && isSameSide(cof4, crossPoint1, pointf)
 };
 
+/**
+ * Analyze where present expected point.
+ * @param {Object} linearCooafitient object that containe coefficient k and b of linear function
+ * @param {Object} otherCrossPoint coordinate crossing point that not present on line
+ * @param {Object} pointf expected point
+ * @return {boolean} true, if expected point in one crossing point present in same side from analyzed line
+ */
+function isSameSide(linearCooafitient, otherCrossPoint, pointf) {
+  return (otherCrossPoint.y >= linearCooafitient.k * otherCrossPoint.x + linearCooafitient.b) === (pointf.y >= linearCooafitient.k * pointf.x + linearCooafitient.b)
+}
+/**
+ *Calculate the coefficient of linear function y = k*x + b, for two points that present on this line.
+ * @param {number} x1 x coordinate of first point
+ * @param {number} y1 y coordinate of first point
+ * @param {number} x2 x coordinate of second point
+ * @param {number} y2 y coordinate of second point
+ * @return {Object} that containe coefficient k and b of linear function
+ */
 function findLinearFunction(x1, y1, x2, y2) {
   const k = (y2 - y1) / (x2 - x1);
   const b = y1 - k * x1;
   return { k: k, b: b };
 }
 
+/**
+ * Calculate point of crossing two lines
+ * @param {number} k1 k coeffitient of linear function of first line
+ * @param {number} b1 b coeffitient of linear function of first line
+ * @param {number} k2 k coeffitient of linear function of second line
+ * @param {number} b2 b coeffitient of linear function of second line
+ * @return {Object} coordinate of crossing point of two line
+ */
 function findCrossPoint(k1, b1, k2, b2) {
   const x = (b2 - b1) / (k1 - k2);
   const y = k1 * x + b1;
-  console.log("x = " + x + "// y = " + y);
-
   return { x: x, y: y };
 }
 
-function isPointInTriangle(point1, point2, point3, pointf) {
-  var result = isPointBetween(point1, point2, pointf);
-  result += isPointBetween(point2, point3, point3);
-  result += isPointBetween(point1, point3, pointf);
-  console.log(result);
-
-  return result >= 2;
-}
-
-function isPointBetween(point1, point2, pointf) {
-  const isXBetween =
-    (point1.x >= pointf.x && pointf.x >= point2.x) ||
-    (point1.x <= pointf.x && pointf.x <= point2.x);
-  const isYBetween =
-    (point1.y >= pointf.y && pointf.y >= point2.y) ||
-    (point1.y <= pointf.y && pointf.y <= point2.y);
-  return isXBetween && isYBetween ? 1 : 0;
-}
-
-// module.exports.isPointInSquare = function (x, y) {
-
-//   return firstLine(x, y) && secondLine(x, y) && thirdLine(x, y) && forthLine(x, y);
-// };
-
-// module.exports.isPointInSquare = function (x, y) {
-
-//   return firstLine(x, y) && secondLine(x, y) && thirdLine(x, y) && forthLine(x, y);
-// };
-
-// function firstLine(x, y) {
-//   const res = (-3 / 5) * x + 3;
-//   console.log(res);
-//   console.log();
-
-//   return y <= (-3 / 5) * x + 3;
-// }
-
-// function secondLine(x, y) {
-//   const res = (2 / 5) * x - 2;
-//   console.log(res);
-//   return y >= (2 / 5) * x - 2;
-// }
-
-// function thirdLine(x, y) {
-//   const res = (-12 / 8) * x - 12;
-//   console.log(res);
-//   return y >= (-12 / 8) * x - 12
-// }
-
-// function forthLine(x, y) {
-//   const res = (4 / 7) * x + 4;
-//   console.log(res);
-//   return y <= (4 / 7) * x + 4
-// }
+module.exports.isTimeValide = isTimeValide;
+module.exports.addMinutes = addMinutes;
+module.exports.getSeason = getSesone;
+module.exports.getDayDeclension = getDayDeclension;
+module.exports.getSumm = sum;
+module.exports.getMultiplicationTable = multiplication;
+module.exports.isPointInCircle = isPointInCircle;
+module.exports.isPointInSquare = isPointInSquare;
