@@ -5,8 +5,8 @@
  * @returns {boolean} true, if inputted correct houres and minutes
  */
 function isTimeValide(hours, minutes) {
-  return (0 <= hours && hours <= 23) && (0 <= minutes && minutes <= 59);
-};
+  return 0 <= hours && hours <= 23 && (0 <= minutes && minutes <= 59);
+}
 /**
  * Changed time by adding some minutes.
  * @param {number} hours actual houres
@@ -16,9 +16,11 @@ function isTimeValide(hours, minutes) {
  */
 function addMinutes(hours, minutes, additionTime) {
   const newMinutes = (additionTime + minutes) % 60;
-  const newHours = (((additionTime + minutes) / 60) + hours) % 24;
-  return addPadding(parseInt(newHours)) + ":" + addPadding(parseInt(newMinutes));
-};
+  const newHours = ((additionTime + minutes) / 60 + hours) % 24;
+  return (
+    addPadding(parseInt(newHours)) + ":" + addPadding(parseInt(newMinutes))
+  );
+}
 
 /**
  * Adding zerro padding if number less than 10
@@ -26,7 +28,7 @@ function addMinutes(hours, minutes, additionTime) {
  * @return {String} String representation of expected number
  */
 function addPadding(value) {
-  return value / 10 >= 1 ? value : '0' + value
+  return value / 10 >= 1 ? value : "0" + value;
 }
 
 /**
@@ -35,18 +37,18 @@ function addPadding(value) {
  * @return {String} Name of sesone
  */
 function getSesone(month) {
-  var seson = '';
+  var seson = "";
   if (month > 2 && month <= 5) {
-    seson = 'Весна';
+    seson = "Весна";
   } else if (month > 5 && month <= 8) {
-    seson = 'Лето';
+    seson = "Лето";
   } else if (month > 8 && month <= 11) {
-    seson = 'Осен';
+    seson = "Осен";
   } else if (month > 0 && month <= 12) {
-    seson = 'Зима';
+    seson = "Зима";
   }
   return seson;
-};
+}
 
 /**
  * Indicate declansion of word "Day"
@@ -73,11 +75,11 @@ function getDayDeclension(declansion) {
       dayDeclansion = "Дне";
       break;
     default:
-      dayDeclansion = "Incorrect Declansion"
+      dayDeclansion = "Дней";
       break;
   }
   return dayDeclansion;
-};
+}
 
 /**
  *  Calculate sum of number from 1 to inputted value.
@@ -90,27 +92,28 @@ function sum(value) {
     result = value + sum(--value);
   }
   return result;
-};
+}
 
 /**
- * Calculate array of result multiplication inputted number on each number from 1 to 10. 
+ * Calculate array of result multiplication inputted number on each number from 1 to 10.
  * Implemented by recursion. Also print reslts of pultiplications
  * @param {number} value number that need multiplicate
  * @return {Array} of multiplication results
  */
 function multiplication(value) {
   var multiplicationArray = [];
-  var multiplyOn = arguments[1] === undefined ? 10 : arguments[1]
+  var multiplyOn = arguments[1] === undefined ? 10 : arguments[1];
   if (multiplyOn > 0) {
-    multiplicationArray.push((value * multiplyOn))
-    multiplicationArray = multiplication(value, --multiplyOn).concat(multiplicationArray)
-
+    multiplicationArray.push(value * multiplyOn);
+    multiplicationArray = multiplication(value, --multiplyOn).concat(
+      multiplicationArray
+    );
   }
 
-  console.log(value + " * " + ++multiplyOn + " = " + (value * multiplyOn));
+  console.log(value + " * " + ++multiplyOn + " = " + value * multiplyOn);
 
   return multiplicationArray;
-};
+}
 
 /**
  * Analyze that point place inside or on boarder of cycle.
@@ -126,7 +129,7 @@ function isPointInCircle(x, y) {
     Math.pow(cycleCenterX - x, 2) + Math.pow(cycleCenterY - y, 2)
   );
   return length <= cycleRadius;
-};
+}
 
 /**
  * Analyze that point place inside or on boarder of square.
@@ -205,36 +208,18 @@ function isPointInSquare(x, y) {
     line4.point2.y
   );
 
-  const crossPoint1 = findCrossPoint(
-    cof1.k,
-    cof1.b,
-    cof2.k,
-    cof2.b
-  );
-  const crossPoint2 = findCrossPoint(
-    cof2.k,
-    cof2.b,
-    cof3.k,
-    cof3.b
-  );
-  const crossPoint3 = findCrossPoint(
-    cof3.k,
-    cof3.b,
-    cof4.k,
-    cof4.b
-  );
-  const crossPoint4 = findCrossPoint(
-    cof4.k,
-    cof4.b,
-    cof1.k,
-    cof1.b
-  );
+  const crossPoint1 = findCrossPoint(cof1.k, cof1.b, cof2.k, cof2.b);
+  const crossPoint2 = findCrossPoint(cof2.k, cof2.b, cof3.k, cof3.b);
+  const crossPoint3 = findCrossPoint(cof3.k, cof3.b, cof4.k, cof4.b);
+  const crossPoint4 = findCrossPoint(cof4.k, cof4.b, cof1.k, cof1.b);
 
-  return isSameSide(cof1, crossPoint2, pointf)
-    && isSameSide(cof2, crossPoint3, pointf)
-    && isSameSide(cof3, crossPoint4, pointf)
-    && isSameSide(cof4, crossPoint1, pointf)
-};
+  return (
+    isSameSide(cof1, crossPoint2, pointf) &&
+    isSameSide(cof2, crossPoint3, pointf) &&
+    isSameSide(cof3, crossPoint4, pointf) &&
+    isSameSide(cof4, crossPoint1, pointf)
+  );
+}
 
 /**
  * Analyze where present expected point.
@@ -244,7 +229,15 @@ function isPointInSquare(x, y) {
  * @return {boolean} true, if expected point in one crossing point present in same side from analyzed line
  */
 function isSameSide(linearCooafitient, otherCrossPoint, pointf) {
-  return (otherCrossPoint.y >= linearCooafitient.k * otherCrossPoint.x + linearCooafitient.b) === (pointf.y >= linearCooafitient.k * pointf.x + linearCooafitient.b)
+  if (pointf.y == linearCooafitient.k * pointf.x + linearCooafitient.b) {
+    return true;
+  }
+
+  return (
+    otherCrossPoint.y >=
+      linearCooafitient.k * otherCrossPoint.x + linearCooafitient.b ===
+    pointf.y >= linearCooafitient.k * pointf.x + linearCooafitient.b
+  );
 }
 /**
  *Calculate the coefficient of linear function y = k*x + b, for two points that present on this line.
